@@ -1,0 +1,171 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        tools:context="ua.kiev.netmaster.razer.itrestaurant.fragments.OrderProc">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:textSize="35dp"
+        android:id="@+id/messageTv"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ordersItemsListView"
+        android:layout_below="@+id/messageTv"
+        android:layout_weight="1"
+         />
+
+    <TableRow
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tableRow"
+        android:layout_below="@+id/ordersItemsListView"
+        android:layout_alignParentStart="true">
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="+"
+            android:id="@+id/addItemBT"
+            android:textColor="@color/colorWhite"
+            android:textSize="35dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/oval_green_shape"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Add Item"
+            android:id="@+id/textView"
+            android:textColor="@color/colorBlack"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/addItemBT"
+            android:layout_marginLeft="20dp" />
+    </TableRow>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@+id/tableRow"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:id="@+id/tableRow2" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tableRow2"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="8dp"
+        android:id="@+id/tableRow3">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Discount"
+            android:id="@+id/textView2"
+            android:layout_weight=".1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="0"
+            android:id="@+id/discountTv"
+            android:gravity="right"
+            android:layout_gravity="right"
+            android:foregroundGravity="right"
+            android:layout_alignTop="@+id/tableRow2"
+            android:layout_alignParentEnd="true" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tableRow3"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp"
+        android:id="@+id/tableRow4">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Tips"
+            android:id="@+id/textView4"
+            android:layout_weight=".1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="0"
+            android:id="@+id/tipsTv"
+            android:gravity="right"
+            android:layout_gravity="right"
+            android:foregroundGravity="right"
+            android:layout_alignTop="@+id/tableRow2"
+            android:layout_alignParentEnd="true" />
+    </TableRow>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="$0"
+        android:id="@+id/summBt"
+        android:layout_below="@+id/tableRow4"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorWhite"
+        android:textAlignment="viewEnd"
+        android:paddingEnd="15dp"
+        android:background="@drawable/black_button"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="10dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Print recipe"
+        android:id="@+id/printRecipeBt"
+        android:textColor="@color/colorHardGray"
+        android:textAlignment="center"
+        android:paddingEnd="15dp"
+        android:background="@drawable/grey_button"
+        android:layout_below="@+id/summBt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add order"
+        android:id="@+id/addOrderBt"
+        android:textColor="@color/colorHardGray"
+        android:textAlignment="center"
+        android:paddingEnd="15dp"
+        android:padding="0dp"
+        android:background="@drawable/white_button"
+        android:layout_below="@+id/printRecipeBt"
+        android:drawableLeft="@mipmap/green_plus"
+        android:layout_alignParentStart="true" />
+
+</LinearLayout>
