@@ -23,12 +23,9 @@ public class InfoFragment1 extends Fragment implements View.OnClickListener {
     private TextView readyTV, readyPlaceTV;
     private String message, place;
     private boolean changeMode;
-   // private La
-    //private Drawable img;
 
 
     public InfoFragment1() {
-        // Required empty public constructor
     }
 
     public static InfoFragment1 newInstance(String message, String place, boolean changeMode) {
@@ -40,7 +37,6 @@ public class InfoFragment1 extends Fragment implements View.OnClickListener {
         fragment.setArguments(args);
         return fragment;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,7 +69,6 @@ public class InfoFragment1 extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if(changeMode){
             myApplication.commitFragment(new DoneButtonFragment(), getFragmentManager());
-            //L.t("todo myApplication.commitFragment(ExecuteBtnFragment);", getActivity());
         }else
             myApplication.commitFragment(ReadyFragment.newInstance(true),getFragmentManager());
     }

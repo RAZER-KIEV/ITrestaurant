@@ -18,7 +18,6 @@ import java.util.List;
 import ua.kiev.netmaster.razer.itrestaurant.R;
 import ua.kiev.netmaster.razer.itrestaurant.activities.MyApplication;
 import ua.kiev.netmaster.razer.itrestaurant.adapters.OrderItemListAdapter;
-import ua.kiev.netmaster.razer.itrestaurant.entities.MenuItem;
 import ua.kiev.netmaster.razer.itrestaurant.entities.Order;
 import ua.kiev.netmaster.razer.itrestaurant.entities.OrderItem;
 import ua.kiev.netmaster.razer.itrestaurant.enums.OrderStatus;
@@ -132,7 +131,6 @@ public class OrderProc extends Fragment implements View.OnClickListener, Adapter
             neworder.setTable(myApplication.getCurrRequest().getTable());
             neworder.setSeat(myApplication.getCurrRequest().getSeat());
             neworder.setStatus(OrderStatus.OPEN);
-            //neworder.setOrders(new Order[]{neworder});
             orders = new ArrayList<>();
             orders.add(neworder);
             currOrder = neworder;
@@ -147,7 +145,6 @@ public class OrderProc extends Fragment implements View.OnClickListener, Adapter
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         L.t("TODO: 09-Apr-16 Go to ready Fragment ", getActivity());
         myApplication.commitFragment(ReadyFragment.newInstance(false), getFragmentManager());
-        // TODO: 09-Apr-16 Go to ready Fragment
     }
 
 

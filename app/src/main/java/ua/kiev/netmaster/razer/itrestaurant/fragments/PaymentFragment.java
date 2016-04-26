@@ -10,7 +10,6 @@ import android.widget.Button;
 
 import ua.kiev.netmaster.razer.itrestaurant.R;
 import ua.kiev.netmaster.razer.itrestaurant.activities.MyApplication;
-import ua.kiev.netmaster.razer.itrestaurant.loger.L;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,12 +52,9 @@ public class PaymentFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.creditCardBt :
-                //L.t("Not Implemented yet", getActivity());
                 myApplication.commitFragment(LikeACalcFragment.newInstance(false), getFragmentManager());
-                // TODO: 09-Apr-16
                 break;
             case  R.id.cashBt:
-                // TODO: 09-Apr-16
                 myApplication.commitFragment(LikeACalcFragment.newInstance(true), getFragmentManager());
                 break;
         }

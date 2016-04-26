@@ -56,7 +56,6 @@ public class MenuItemChooser extends Fragment implements AdapterView.OnItemClick
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         MenuItem menuItem = myApplication.getMenuItemList().get(position);
-        //myApplication.getCurrOrder().getItems()
         Order curOrd = myApplication.getCurrOrder();
         if(curOrd==null){
             Order neworder = new Order();

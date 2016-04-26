@@ -7,13 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 import ua.kiev.netmaster.razer.itrestaurant.R;
 import ua.kiev.netmaster.razer.itrestaurant.activities.MyApplication;
-import ua.kiev.netmaster.razer.itrestaurant.activities.ProccessingActivity;
 import ua.kiev.netmaster.razer.itrestaurant.entities.Request;
 
 /**
@@ -24,7 +21,6 @@ public class ReadyFragment extends Fragment implements View.OnClickListener {
 
     private MyApplication myApplication;
     private View root;
-    private boolean finishActivity;
 
     public static ReadyFragment newInstance(boolean finishActivity) {
 
@@ -52,7 +48,6 @@ public class ReadyFragment extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         root.setOnClickListener(this);
         myApplication = (MyApplication) getActivity().getApplication();
-        //closeFragment.run();
     }
 
     @Override

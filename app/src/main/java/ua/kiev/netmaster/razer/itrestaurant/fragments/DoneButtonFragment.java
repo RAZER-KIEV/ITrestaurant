@@ -24,7 +24,6 @@ public class DoneButtonFragment extends Fragment implements View.OnClickListener
     private MyApplication myApplication;
     private ImageView readyImg;
     private TextView readyTV, readyPlaceTV;
-    private String message, place;
     private Button doneBt;
 
     public DoneButtonFragment() {

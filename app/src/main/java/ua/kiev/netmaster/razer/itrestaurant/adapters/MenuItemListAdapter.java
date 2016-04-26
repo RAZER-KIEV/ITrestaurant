@@ -18,7 +18,6 @@ import ua.kiev.netmaster.razer.itrestaurant.entities.OrderItem;
  * Created by RAZER on 09-Apr-16.
  */
 public class MenuItemListAdapter extends BaseAdapter{
-    private Context context;
     private List<MenuItem> menuItems;
     private MyApplication myApplication;
     private View root;

@@ -149,7 +149,6 @@ public class TableDetailsFragment extends Fragment implements View.OnClickListen
                 myApplication.setCurrRequest(getFirstRequest(Seat.D));
                 break;
             case R.id.buttonCenter:
-                // TODO: 26-Apr-16 make table admin
                 L.t("Not Implemented yet!", getActivity());
                 return;
         }if(myApplication.getCurrRequest()!=null)myApplication.commitFragment(new PlaceDetailsFragment(), getFragmentManager());

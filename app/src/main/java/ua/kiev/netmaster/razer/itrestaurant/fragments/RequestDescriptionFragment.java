@@ -55,7 +55,6 @@ public class RequestDescriptionFragment extends Fragment implements View.OnClick
     private void createMessage() {
         L.l("createMessage()", this);
         String message="";
-        //L.l("current.getRequestTypes().element() = "+ current.getRequestTypes().element());
         L.l("current.getRequestTypes().size() = "+current.getRequestTypes().size());
         switch (current.getRequestTypes().element()){
             case ComeToMe:
@@ -97,7 +96,6 @@ public class RequestDescriptionFragment extends Fragment implements View.OnClick
     public void onClick(View v) {
         Intent intent = new Intent(getActivity(), ProccessingActivity.class);
         startActivity(intent);
-        //L.t("clicked!",getActivity());
     }
 
 

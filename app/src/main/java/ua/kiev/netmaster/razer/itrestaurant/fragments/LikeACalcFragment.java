@@ -23,13 +23,12 @@ public class LikeACalcFragment extends Fragment {
     private boolean modeCash;
     private MyApplication myApplication;
     private TextView monitor;
-    //private Button bt1, bt2, bt3, bt4,bt5,bt6,bt7,bt8,bt9,bt0,btBack,btApply;
     private View root;
     private CalcCommunicator calcCommunicator;
     private LinearLayout cont;
 
     public LikeACalcFragment() {
-        // Required empty public constructor
+
     }
 
 
@@ -44,8 +43,6 @@ public class LikeACalcFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //getArguments().getBoolean()
         root = inflater.inflate(R.layout.fragment_like_acalc, container, false);
         cont = (LinearLayout) root.findViewById(R.id.linear_calc_cont);
         monitor = (TextView) root.findViewById(R.id.calcMonitorTv);
@@ -58,7 +55,7 @@ public class LikeACalcFragment extends Fragment {
         modeCash = getArguments().getBoolean("modeCash");
         if(!modeCash){
             cont.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.colorGreen));
-            monitor.setText("XXXX XXXX XXXX ");
+            monitor.setText(R.string.xxx);
             monitor.setTextSize(25f);
         }
         myApplication = (MyApplication) getActivity().getApplication();
@@ -95,7 +92,6 @@ public class LikeACalcFragment extends Fragment {
             } else {
                 myApplication.setInfoFrImg(ContextCompat.getDrawable(getContext(), R.drawable.ic_receipt_schedule_currency));
                 myApplication.commitFragment(InfoFragment1.newInstance("Please give receipt to the visitor", "" + myApplication.getCurrRequest().getTable().getNumber() + myApplication.getCurrRequest().getSeat(), false), getFragmentManager());
-               // L.t("TODO: Please give receipt to the visitor", getActivity());
             }
         }
     }

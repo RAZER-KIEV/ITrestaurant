@@ -107,21 +107,6 @@ public class RecyclerRequestAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-
-    class ViewHolderMessageKitchen extends RecyclerView.ViewHolder{
-        TextView time_tv, table_seat_tv;
-        ImageView iv0, iv1,iv2, iv3;
-        public ViewHolderMessageKitchen(View v) {
-            super(v);
-            time_tv = (TextView) v.findViewById(R.id.time_tv);
-            table_seat_tv = (TextView) v.findViewById(R.id.table_seat_tv);
-            iv0  = (ImageView) v.findViewById(R.id.iv0);
-            iv1  = (ImageView) v.findViewById(R.id.iv1);
-            iv2  = (ImageView) v.findViewById(R.id.iv2);
-            iv3  = (ImageView) v.findViewById(R.id.iv3);
-        }
-    }
-
     class ViewHolderGetCash extends RecyclerView.ViewHolder{
         TextView time_tv, table_seat_tv;
         public ViewHolderGetCash(View v) {
@@ -141,13 +126,13 @@ public class RecyclerRequestAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         int counter = 0;
         for(RequestType requestType: request.getRequestTypes()){
             switch (counter){
-                case 0 : choseIcon(viewHolder.iv0 ,requestType);
+                case 0 : myApplication.choseIcon(viewHolder.iv0, requestType);
                     break;
-                case 1: choseIcon(viewHolder.iv1, requestType);
+                case 1: myApplication.choseIcon(viewHolder.iv1, requestType);
                     break;
-                case 2: choseIcon(viewHolder.iv2, requestType);
+                case 2: myApplication.choseIcon(viewHolder.iv2, requestType);
                     break;
-                case 3: choseIcon(viewHolder.iv3, requestType);
+                case 3: myApplication.choseIcon(viewHolder.iv3, requestType);
                     break;
             }
             counter++;
@@ -160,32 +145,4 @@ public class RecyclerRequestAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         viewHolder.iv2.setImageDrawable(null);
         viewHolder.iv3.setImageDrawable(null);
     }
-
-    private void choseIcon(ImageView imageView, RequestType requestType){
-        switch (requestType){
-            case ComeToMe:
-                imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_account));
-                break;
-            case Taxi:
-                imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_car));
-                break;
-            case Cash:
-                imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_cash_multiple));
-                break;
-            case CreditCard:
-                imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_credit_card));
-                break;
-            case Cutlery:
-                imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_silverware_fork));
-                break;
-            case GetCash:
-                imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_cash_multiple));
-                break;
-            case Kitchen:
-                imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_food));
-                break;
-        }
-        imageView.setVisibility(View.VISIBLE);
-    }
-
 }

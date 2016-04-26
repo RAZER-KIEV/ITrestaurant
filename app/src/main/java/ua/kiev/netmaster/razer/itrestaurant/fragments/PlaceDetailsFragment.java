@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import ua.kiev.netmaster.razer.itrestaurant.R;
 import ua.kiev.netmaster.razer.itrestaurant.activities.MyApplication;
-import ua.kiev.netmaster.razer.itrestaurant.communicator.IRestaurantService;
 import ua.kiev.netmaster.razer.itrestaurant.entities.Request;
 import ua.kiev.netmaster.razer.itrestaurant.enums.RequestType;
 
@@ -19,11 +18,10 @@ import ua.kiev.netmaster.razer.itrestaurant.enums.RequestType;
  * Created by RAZER on 26-Apr-16.
  */
 public class PlaceDetailsFragment extends Fragment implements View.OnClickListener {
-    private IRestaurantService iRestaurantService;
+
     private MyApplication myApplication;
     private View root;
     private ImageView placeIV1, placeIV2, placeIV3, placeIV4;
-    private final String requestPos="requestPos";
     private Request curRequest;
     private TextView tableSeat;
 
@@ -37,7 +35,6 @@ public class PlaceDetailsFragment extends Fragment implements View.OnClickListen
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        iRestaurantService = (IRestaurantService) getActivity().getApplication();
         myApplication = (MyApplication) getActivity().getApplication();
         curRequest = myApplication.getCurrRequest();
         initViews();
@@ -69,7 +66,6 @@ public class PlaceDetailsFragment extends Fragment implements View.OnClickListen
     }
 
     private  void initViews(){
-        //int size = myApplication.getDisplayMetrics().widthPixels/2;
         tableSeat = (TextView) root.findViewById(R.id.tableSeatTV);
         tableSeat.setText(""+curRequest.getTable().getNumber()+curRequest.getSeat());
         placeIV1 = (ImageView) root.findViewById(R.id.placeIV1);

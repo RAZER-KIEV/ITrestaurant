@@ -42,9 +42,6 @@ public class RecyclingRequestFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.recyclerview_lay, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.list1);
-        //XmlPullParser parser = getResources().getXml(R.id.list1);
-        //AttributeSet attributes = Xml.asAttributeSet(parser);
-        //MyRecyclerView myRecyclerView = new MyRecyclerView(getContext(),)
         return v;
     }
 

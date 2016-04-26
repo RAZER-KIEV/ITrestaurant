@@ -28,20 +28,16 @@ import ua.kiev.netmaster.razer.itrestaurant.loger.L;
  */
 public class OneMoreTableMapFragment extends Fragment implements View.OnDragListener, View.OnLongClickListener, View.OnTouchListener, View.OnClickListener {
 
-    Button button;
-    int x_cord=0, y_cord=0;
-    DisplayMetrics metrics;
-    RelativeLayout relLayout;
+    private Button button;
+    private int x_cord=0, y_cord=0;
+    private DisplayMetrics metrics;
+    private RelativeLayout relLayout;
     private int tableIconSize;
     private final String ButtonTag = "ButtonTag";
-
-
     private RelativeLayout.LayoutParams layoutParams;
+    private MyApplication myApplication;
+    private IRestaurantService iRestaurantService;
 
-    MyApplication myApplication;
-    IRestaurantService iRestaurantService;
-
-    //ClipData dragData;
 
     @Nullable
     @Override
@@ -169,6 +165,5 @@ public class OneMoreTableMapFragment extends Fragment implements View.OnDragList
         Intent intent  = new Intent(getContext(), ProccessingActivity.class);
         intent.putExtra("pos",tablenumber);
         startActivity(intent);
-        // TODO: 26-Apr-16
     }
 }

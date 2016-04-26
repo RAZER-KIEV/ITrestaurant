@@ -8,6 +8,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="brought">Принес</string>
     <string name="map">MAP</string>
+    <string name="xxx">XXXX XXXX XXXX</string>
     <array name="dishes">
         <item>Sup</item>
         <item>Borsch</item>

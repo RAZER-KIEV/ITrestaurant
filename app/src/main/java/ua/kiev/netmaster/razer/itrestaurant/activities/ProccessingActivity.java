@@ -25,13 +25,9 @@ public class ProccessingActivity extends AppCompatActivity implements LikeACalcF
         super.onCreate(savedInstanceState);
         L.l("onCreate()", this);
         setContentView(R.layout.activity_proccessing);
-        //getIntent().getIntExtra("req_possition", -1);
         myApplication = (MyApplication) getApplication();
         request = myApplication.getCurrRequest();
         if(request!=null)L.l("request.toString()  "+ request.toString(), this);
-        //generateMenu();
-
-        //choseFragment();
     }
 
     @Override
@@ -44,7 +40,6 @@ public class ProccessingActivity extends AppCompatActivity implements LikeACalcF
     private void choseFragment() {
         L.l("choseFragment", this);
         int pos=getIntent().getIntExtra("pos",-1);
-        //getIntent().putExtra("pos", -1);
         if(pos>=0) myApplication.commitFragment(TableDetailsFragment.newInstance(pos),getSupportFragmentManager());
         else if (request.getRequestTypes().element() == RequestType.ComeToMe) {
             myApplication.commitFragment(new OrderProc(), getSupportFragmentManager());
@@ -77,6 +72,5 @@ public class ProccessingActivity extends AppCompatActivity implements LikeACalcF
         L.l("onBackPressed; getSupportFragmentManager().getBackStackEntryCount()= ",this);
         super.onBackPressed();
         L.l("onBackPressed; getSupportFragmentManager().getBackStackEntryCount()= " + getSupportFragmentManager().getBackStackEntryCount(), this);
-        //getSupportFragmentManager().getBackStackEntryCount();
     }
 }
