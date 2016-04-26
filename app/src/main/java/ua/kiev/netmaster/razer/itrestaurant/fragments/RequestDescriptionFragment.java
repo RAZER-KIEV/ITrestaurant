@@ -30,10 +30,7 @@ public class RequestDescriptionFragment extends Fragment implements View.OnClick
 
     public static RequestDescriptionFragment newInstance(SecondPageFragmentListener listener) {
         secondPageFragmentListener = listener;
-        Bundle args = new Bundle();
-        RequestDescriptionFragment fragment = new RequestDescriptionFragment();
-        fragment.setArguments(args);
-        return fragment;
+        return new RequestDescriptionFragment();
     }
 
 
@@ -58,7 +55,9 @@ public class RequestDescriptionFragment extends Fragment implements View.OnClick
     private void createMessage() {
         L.l("createMessage()", this);
         String message="";
-        switch (current.getRequestTypes().get(0)){
+        //L.l("current.getRequestTypes().element() = "+ current.getRequestTypes().element());
+        L.l("current.getRequestTypes().size() = "+current.getRequestTypes().size());
+        switch (current.getRequestTypes().element()){
             case ComeToMe:
                 message+="Иди на место "+current.getTable().getNumber()+current.getSeat();
                 break;

@@ -1,0 +1,156 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/linear_calc_cont"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorRedOrange">
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/calcMonitorTv"
+        android:background="@color/colorWhite"
+        android:textSize="50sp"
+        android:textAlignment="center"
+        android:layout_weight=".1" />
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="4"
+        android:rowCount="3"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:id="@+id/grid_calc_lay"
+        android:useDefaultMargins="true">
+
+    <Button
+        android:text="1"
+        android:background="@drawable/calc_button_shape"
+        android:id="@+id/bt1"
+        android:textSize="50sp"
+        android:textColor="@color/colorWhite"
+        android:onClick="myCalcClikMethod"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="75dp" />
+
+    <Button
+        android:text="2"
+        android:id="@+id/bt2"
+        android:textSize="50sp"
+        android:background="@drawable/calc_button_shape"
+        android:textColor="@color/colorWhite"
+        android:onClick="myCalcClikMethod"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="75dp" />
+
+    <Button
+        android:text="3"
+        android:id="@+id/bt3"
+        android:textSize="50sp"
+        android:background="@drawable/calc_button_shape"
+        android:textColor="@color/colorWhite"
+        android:onClick="myCalcClikMethod"
+
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="75dp" />
+
+    <Button
+        android:text="4"
+        android:id="@+id/bt4"
+        android:textSize="50sp"
+        android:background="@drawable/calc_button_shape"
+        android:textColor="@color/colorWhite"
+        android:onClick="myCalcClikMethod"
+
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="75dp" />
+
+    <Button
+        android:text="5"
+        android:id="@+id/bt5"
+        android:textSize="50sp"
+        android:background="@drawable/calc_button_shape"
+        android:textColor="@color/colorWhite"
+        android:onClick="myCalcClikMethod"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="75dp" />
+
+    <Button
+        android:text="6"
+        android:id="@+id/bt6"
+        android:textSize="50sp"
+        android:background="@drawable/calc_button_shape"
+        android:textColor="@color/colorWhite"
+        android:onClick="myCalcClikMethod"
+
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="75dp" />
+
+    <Button
+
+        android:text="7"
+        android:id="@+id/bt7"
+        android:textSize="50sp"
+        android:background="@drawable/calc_button_shape"
+        android:textColor="@color/colorWhite"
+        android:onClick="myCalcClikMethod"
+
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="75dp" />
+
+    <Button
+        android:text="8"
+        android:id="@+id/bt8"
+        android:textSize="50sp"
+        android:background="@drawable/calc_button_shape"
+        android:textColor="@color/colorWhite"
+        android:onClick="myCalcClikMethod"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="75dp" />
+
+    <Button
+
+        android:text="9"
+        android:id="@+id/bt9"
+        android:textSize="50sp"
+        android:background="@drawable/calc_button_shape"
+        android:textColor="@color/colorWhite"
+        android:onClick="myCalcClikMethod"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="75dp" />
+
+    <Button
+        android:text="0"
+        android:id="@+id/bt0"
+        android:textSize="50sp"
+        android:background="@drawable/calc_button_shape"
+        android:textColor="@color/colorWhite"
+        android:onClick="myCalcClikMethod"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="75dp" />
+
+    <Button
+        android:text="&lt;-"
+        android:id="@+id/btBack"
+        android:textSize="50sp"
+        android:background="@drawable/calc_button_shape"
+        android:textColor="@color/colorWhite"
+        android:onClick="myCalcClikMethod"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="75dp" />
+
+    <Button
+        android:text="V"
+        android:id="@+id/btApply"
+        android:textSize="50sp"
+        android:background="@drawable/calc_button_shape"
+        android:textColor="@color/colorWhite"
+        android:onClick="myCalcClikMethod"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="75dp" />
+</GridLayout>
+
+</LinearLayout>

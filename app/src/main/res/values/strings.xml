@@ -6,4 +6,19 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="brought">Принес</string>
+    <string name="map">MAP</string>
+    <array name="dishes">
+        <item>Sup</item>
+        <item>Borsch</item>
+        <item>Kasha</item>
+        <item>Pizza</item>
+        <item>Sushi</item>
+        <item>Salat Greckiy</item>
+        <item>Salat Letniy</item>
+        <item>Black Tea</item>
+        <item>Green Tea</item>
+        <item>Mohito</item>
+        <item>Limonad</item>
+    </array>
 </resources>

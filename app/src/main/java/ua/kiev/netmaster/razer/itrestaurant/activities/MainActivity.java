@@ -12,11 +12,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Collections;
+
 import ua.kiev.netmaster.razer.itrestaurant.R;
+import ua.kiev.netmaster.razer.itrestaurant.adapters.RecyclingRequestFragment;
+import ua.kiev.netmaster.razer.itrestaurant.fragments.OneMoreTableMapFragment;
 import ua.kiev.netmaster.razer.itrestaurant.fragments.RequestDescriptionFragment;
-import ua.kiev.netmaster.razer.itrestaurant.fragments.RequestsListFragment;
 import ua.kiev.netmaster.razer.itrestaurant.fragments.SecondPageFragmentListener;
-import ua.kiev.netmaster.razer.itrestaurant.fragments.TableMapFragmant;
+import ua.kiev.netmaster.razer.itrestaurant.fragments.TableDetailsFragment;
 import ua.kiev.netmaster.razer.itrestaurant.loger.L;
 
 
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
+
+    private MyApplication myApplication;
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
@@ -41,9 +46,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        L.l("onCreate", this);
         setContentView(R.layout.activity_main);
+        myApplication = (MyApplication) getApplication();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        L.l("toolbar.getHeight()) = " +toolbar.getHeight(), this);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -55,6 +63,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        L.l("onResume()", this);
+        if(myApplication.isBackToRequesqList()){
+            switchToReqList();
+        }//else gotoMap();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -100,10 +116,10 @@ public class MainActivity extends AppCompatActivity {
                 FragmentTransaction transaction = mFragmentManager.beginTransaction();
                 //transaction.addToBackStack(null);
                 transaction.remove(mFragmentAtPos1).commit();
-                if(mFragmentAtPos1 instanceof RequestsListFragment){
+                if(mFragmentAtPos1 instanceof RecyclingRequestFragment){
                     mFragmentAtPos1 = RequestDescriptionFragment.newInstance(this);
                 }else {
-                    mFragmentAtPos1 = RequestsListFragment.newInstance(this);
+                    mFragmentAtPos1 = RecyclingRequestFragment.newInstance(this);
                 }
                 notifyDataSetChanged();
             }
@@ -123,13 +139,14 @@ public class MainActivity extends AppCompatActivity {
             L.l("getItem()", this);
             if(position ==1){
                 if(mFragmentAtPos1 ==null){
-                    mFragmentAtPos1 = RequestsListFragment.newInstance(new ReqestPageListener());
+                    mFragmentAtPos1 = RecyclingRequestFragment.newInstance(new ReqestPageListener());
                 } return mFragmentAtPos1;
-            }  else return new TableMapFragmant();
+            }  else return new OneMoreTableMapFragment();
         }
 
         @Override
         public int getCount() {
+            L.l("getCount()", this);
             // Show 2 total pages.
             return 2;
         }
@@ -137,9 +154,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getItemPosition(Object object) {
-            if(object instanceof RequestsListFragment && mFragmentAtPos1 instanceof RequestDescriptionFragment)
+            L.l("getItemPosition()", this);
+            if(object instanceof RecyclingRequestFragment && mFragmentAtPos1 instanceof RequestDescriptionFragment)
                 return POSITION_NONE;
-            if(object instanceof RequestDescriptionFragment && mFragmentAtPos1 instanceof RequestsListFragment)
+            if(object instanceof RequestDescriptionFragment && mFragmentAtPos1 instanceof RecyclingRequestFragment)
                 return POSITION_NONE;
             return POSITION_UNCHANGED;
         }
@@ -148,18 +166,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         L.l("onBackPressed()");
-        Fragment fragment = (Fragment) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.container + ":"+mViewPager.getCurrentItem());
-        if(fragment instanceof RequestDescriptionFragment) RequestDescriptionFragment.getSecondPageFragmentListener().onSwitchToChildFragment();
-        else super.onBackPressed();
-        /*L.l("fragment.getTag() = "+fragment.getTag());
-        if (fragment != null) // could be null if not instantiated yet
-        {
-            if (fragment.getView() != null) {
-                // Pop the backstack on the ChildManager if there is any. If not, close this activity as normal.
-                if (!fragment.getChildFragmentManager().popBackStackImmediate()) {
-                    finish();
-                }
-            }
-        }*/
+        if(!switchToReqList()) super.onBackPressed();
     }
+
+    private boolean switchToReqList(){
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.container + ":"+mViewPager.getCurrentItem());
+        Collections.sort(myApplication.getRequestList());
+        if(fragment instanceof RequestDescriptionFragment){
+            RequestDescriptionFragment.getSecondPageFragmentListener().onSwitchToChildFragment();
+            return true;
+        } else return false;
+    }
+
+    private boolean gotoMap(){
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.container + ":"+mViewPager.getCurrentItem());
+        Collections.sort(myApplication.getRequestList());
+        if(fragment instanceof TableDetailsFragment){
+            RequestDescriptionFragment.getSecondPageFragmentListener().onSwitchToChildFragment();
+            return true;
+        } else return false;
+    }
+
+
 }

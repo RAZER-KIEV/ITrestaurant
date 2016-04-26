@@ -6,7 +6,7 @@
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/salad_icon"
+        android:src="@mipmap/salad_img"
         android:id="@+id/imageView3" />
 
     <TextView

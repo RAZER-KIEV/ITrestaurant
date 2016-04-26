@@ -2,39 +2,44 @@ package ua.kiev.netmaster.razer.itrestaurant.activities;
 
 import android.app.Activity;
 import android.app.Application;
-import android.media.Image;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.ImageView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import ua.kiev.netmaster.razer.itrestaurant.R;
+import ua.kiev.netmaster.razer.itrestaurant.communicator.IRestaurantService;
 import ua.kiev.netmaster.razer.itrestaurant.entities.MenuItem;
 import ua.kiev.netmaster.razer.itrestaurant.entities.Order;
 import ua.kiev.netmaster.razer.itrestaurant.entities.Request;
 import ua.kiev.netmaster.razer.itrestaurant.entities.Table;
 import ua.kiev.netmaster.razer.itrestaurant.enums.RequestType;
-import ua.kiev.netmaster.razer.itrestaurant.enums.Seat;
-import ua.kiev.netmaster.razer.itrestaurant.enums.TableStatus;
-import ua.kiev.netmaster.razer.itrestaurant.fragments.SecondPageFragmentListener;
+import ua.kiev.netmaster.razer.itrestaurant.fragments.LikeACalcFragment;
+import ua.kiev.netmaster.razer.itrestaurant.generator.Generator;
 import ua.kiev.netmaster.razer.itrestaurant.loger.L;
 
 /**
  * Created by RAZER on 07-Apr-16.
  */
-public class MyApplication extends Application {
+public class MyApplication extends Application implements IRestaurantService {
 
 
+    //private Request tempReqest;
     private List<Order> orderList;
-    private List<Request> requestList;
+    private ArrayList<Request> requestList;
     private SimpleDateFormat simpleDateFormat;
     private List<Table> dummyTableList;
     private int number=0;
@@ -43,6 +48,14 @@ public class MyApplication extends Application {
     private List<MenuItem> menuItemList;
     private Order currOrder;
     private int curOderPosition;
+    private LikeACalcFragment likeACalcFragment;
+    private double curChange;
+    private Drawable infoFrImg;
+    private boolean backToRequesqList;
+    private DisplayMetrics displayMetrics;
+    public static IRestaurantService iRestaurantService;
+
+
 
 
     @Override
@@ -50,16 +63,16 @@ public class MyApplication extends Application {
         L.l("onCreate", this);
         super.onCreate();
         simpleDateFormat = (SimpleDateFormat) SimpleDateFormat.getTimeInstance(DateFormat.SHORT);
+        iRestaurantService = this;
+        new Generator(this).generate();
     }
 
     public void commitFragment(Fragment fragment, FragmentManager fragmentManager) {
-
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         String str[]=fragment.getClass().toString().split("\\.");
         String fragmentName = str[str.length-1].trim();
         L.l(" MYAPPLICATION. commitFragment. - " + fragmentName);
-        //L.l("fragment.getClass().getCanonicalName() = " + fragment.getClass().getCanonicalName(),this);
         fragmentTransaction.replace(R.id.processing_container, fragment, fragmentName);
         fragmentTransaction.addToBackStack("BackTag");
         fragmentTransaction.commit();
@@ -67,74 +80,83 @@ public class MyApplication extends Application {
     }
 
     public void setToolbarTitle(String title,Activity activity ){
+        L.l("setToolbarTitle()");
         Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
         toolbar.setTitle(title);
     }
 
-    public List<Request> getRequestList() {
-        if(requestList==null||requestList.size()<1){
-            makeDummyRequestList(50);
+    public void setDummyTableList(List<Table> dummyTableList) {
+        this.dummyTableList = dummyTableList;
+    }
+
+
+    private int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
         }
-        return requestList;
+
+        return inSampleSize;
     }
 
-    public void setRequestList(List<Request> requestList) {
-        this.requestList = requestList;
+    public Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
+                                                         int reqWidth, int reqHeight) {
+
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(res, resId, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeResource(res, resId, options);
     }
 
-    public SimpleDateFormat getSimpleDateFormat() {
-        return simpleDateFormat;
-    }
 
-    private void makeDummyTableList(int quantity){
-        dummyTableList = new ArrayList<>();
-        for(int i=0;i<quantity; i++){
-            dummyTableList.add(makedummyTable());
+    public ImageView choseIcon(ImageView imageView, RequestType requestType){
+        switch (requestType){
+            case ComeToMe:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_account));
+                break;
+            case Taxi:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_car));
+                break;
+            case Cash:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_cash_multiple));
+                break;
+            case CreditCard:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_credit_card));
+                break;
+            case Cutlery:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_silverware_fork));
+                break;
+            case GetCash:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_cash_multiple));
+                break;
+            case Kitchen:
+                imageView.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_food));
+                break;
         }
+        imageView.setVisibility(View.VISIBLE);
+        return imageView;
     }
-
-
-    private Table makedummyTable(){
-        Table table = new Table();
-        table.setNumber((long) number++);
-        table.setSeats(Seat.values());
-        table.setStatus(TableStatus.SLEEPING);
-        table.setWallpaper(ContextCompat.getDrawable(this, R.drawable.table_bcgrnd));
-        return table;
-    }
-
-    public List<Table> getDummyTableList() {
-        if(dummyTableList==null||dummyTableList.size()<1){
-            makeDummyTableList(5);
-        }
-        return dummyTableList;
-    }
-
-
-    private void makeDummyRequestList(int quantity){
-        requestList = new ArrayList<>();
-        for(int i =0; i<quantity; i++){
-            requestList.add(makeDummyRequest());
-        }
-    }
-
-    private Request makeDummyRequest(){
-        Request request = new Request();
-        request.setSeat(Seat.B);
-        request.setTable(getDummyTableList().get(0));  //random 1-5
-        List<RequestType> reqTypes =new ArrayList();
-        reqTypes.add(RequestType.values()[random(0,6)]);
-        request.setRequestTypes(reqTypes);
-        request.setTime(new Date());
-        return request;
-    }
-
-    public int random(int minimum, int maximum){
-        Random r = new Random();
-        int i1 = r.nextInt(maximum - minimum) + minimum;
-        return i1;
-    }
-
 
     public Request getCurrRequest() {
         return currRequest;
@@ -182,5 +204,60 @@ public class MyApplication extends Application {
 
     public void setCurOderPosition(int curOderPosition) {
         this.curOderPosition = curOderPosition;
+    }
+
+    public LikeACalcFragment getLikeACalcFragment() {
+        return likeACalcFragment;
+    }
+
+    public void setLikeACalcFragment(LikeACalcFragment likeACalcFragment) {
+        this.likeACalcFragment = likeACalcFragment;
+    }
+
+    public double getCurChange() {
+        return curChange;
+    }
+
+    public void setCurChange(double curChange) {
+        this.curChange = curChange;
+    }
+
+    public Drawable getInfoFrImg() {
+        return infoFrImg;
+    }
+
+    public void setInfoFrImg(Drawable infoFrImg) {
+        this.infoFrImg = infoFrImg;
+    }
+
+    public ArrayList<Request> getRequestList() {
+        return requestList;
+    }
+
+    public void setRequestList(ArrayList<Request> requestList) {
+        this.requestList = requestList;
+    }
+
+    public SimpleDateFormat getSimpleDateFormat() {
+        return simpleDateFormat;
+    }
+    public List<Table> getDummyTableList() {
+        return dummyTableList;
+    }
+
+    public boolean isBackToRequesqList() {
+        return backToRequesqList;
+    }
+
+    public void setBackToRequesqList(boolean backToRequesqList) {
+        this.backToRequesqList = backToRequesqList;
+    }
+
+    public DisplayMetrics getDisplayMetrics() {
+        return displayMetrics;
+    }
+
+    public void setDisplayMetrics(DisplayMetrics displayMetrics) {
+        this.displayMetrics = displayMetrics;
     }
 }

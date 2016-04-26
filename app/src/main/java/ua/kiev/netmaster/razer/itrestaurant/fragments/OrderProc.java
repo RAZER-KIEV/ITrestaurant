@@ -63,13 +63,15 @@ public class OrderProc extends Fragment implements View.OnClickListener, Adapter
     public void onResume() {
         super.onResume();
         L.l("onResume() = " + currOrder, this);
-        if(currOrder.getItems()!=null) {
+        if(currOrder!=null&&currOrder.getItems()!=null) {
             adapter.setOrderItems(Arrays.asList(currOrder.getItems()));
             L.l("adapter.getCount() = " + adapter.getCount());
             adapter.notifyDataSetChanged();
             summBt.setText(String.format(" $ %.2f", calcSum()));
             discountTv.setText(String.format(" $ %.2f", price / 10));
             tipsTv.setText(String.format(" $ %.2f", price / 20));
+            currOrder.setTotal(price);
+            myApplication.setCurrOrder(currOrder);
         }
     }
 
@@ -101,6 +103,7 @@ public class OrderProc extends Fragment implements View.OnClickListener, Adapter
                 myApplication.commitFragment( new MenuItemChooser(),getFragmentManager());
                 break;
             case R.id.summBt :
+                myApplication.commitFragment(new PaymentFragment(), getFragmentManager());
                 break;
             case R.id.printRecipeBt:
                 L.t("Printing...", getActivity());
@@ -111,10 +114,11 @@ public class OrderProc extends Fragment implements View.OnClickListener, Adapter
     }
 
     private void searchOrder(){
+        L.l("searchOrder()", this);
         List<Order> orders = myApplication.getOrderList();
         if(orders!=null&&orders.size()>0){
         int counter = 0;
-        for ( Order order : myApplication.getOrderList()){
+        for ( Order order : orders){
             if(order.getTable()== myApplication.getCurrRequest().getTable()&& order.getSeat() == myApplication.getCurrRequest().getSeat()){
                 currOrder = order;
                 myApplication.setCurOderPosition(counter);
@@ -142,7 +146,7 @@ public class OrderProc extends Fragment implements View.OnClickListener, Adapter
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         L.t("TODO: 09-Apr-16 Go to ready Fragment ", getActivity());
-        myApplication.commitFragment(new ReadyFragment(), getFragmentManager());
+        myApplication.commitFragment(ReadyFragment.newInstance(false), getFragmentManager());
         // TODO: 09-Apr-16 Go to ready Fragment
     }
 

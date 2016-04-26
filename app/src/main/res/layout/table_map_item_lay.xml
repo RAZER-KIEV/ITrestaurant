@@ -1,0 +1,10 @@
+<Button
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:id="@+id/table_ib2"
+    android:background="@mipmap/table_icon"
+    android:text="1"
+    android:textSize="30sp"
+    android:textColor="#FFFF"
+    android:layout_margin="10dp"/>

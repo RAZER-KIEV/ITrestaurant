@@ -1,20 +1,21 @@
 package ua.kiev.netmaster.razer.itrestaurant.activities;
 
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.view.View;
 
 import ua.kiev.netmaster.razer.itrestaurant.R;
-import ua.kiev.netmaster.razer.itrestaurant.entities.MenuItem;
 import ua.kiev.netmaster.razer.itrestaurant.entities.Request;
 import ua.kiev.netmaster.razer.itrestaurant.enums.RequestType;
+import ua.kiev.netmaster.razer.itrestaurant.fragments.BroughtFragment;
+import ua.kiev.netmaster.razer.itrestaurant.fragments.DoneButtonFragment;
+import ua.kiev.netmaster.razer.itrestaurant.fragments.LikeACalcFragment;
 import ua.kiev.netmaster.razer.itrestaurant.fragments.OrderProc;
+import ua.kiev.netmaster.razer.itrestaurant.fragments.TableDetailsFragment;
 import ua.kiev.netmaster.razer.itrestaurant.loger.L;
 
-public class ProccessingActivity extends AppCompatActivity {
+public class ProccessingActivity extends AppCompatActivity implements LikeACalcFragment.CalcCommunicator {
 
     private Request request;
     private MyApplication myApplication;
@@ -27,34 +28,55 @@ public class ProccessingActivity extends AppCompatActivity {
         //getIntent().getIntExtra("req_possition", -1);
         myApplication = (MyApplication) getApplication();
         request = myApplication.getCurrRequest();
-        L.l("request.toString()  "+ request.toString(), this);
-        generateMenu();
+        if(request!=null)L.l("request.toString()  "+ request.toString(), this);
+        //generateMenu();
+
+        //choseFragment();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        L.l("onResume", this);
         choseFragment();
     }
 
-    private void choseFragment(){
-        if(request.getRequestTypes().get(0)== RequestType.ComeToMe){
-            myApplication.commitFragment(new OrderProc(),getSupportFragmentManager());
-        }
+    private void choseFragment() {
+        L.l("choseFragment", this);
+        int pos=getIntent().getIntExtra("pos",-1);
+        //getIntent().putExtra("pos", -1);
+        if(pos>=0) myApplication.commitFragment(TableDetailsFragment.newInstance(pos),getSupportFragmentManager());
+        else if (request.getRequestTypes().element() == RequestType.ComeToMe) {
+            myApplication.commitFragment(new OrderProc(), getSupportFragmentManager());
+        } else if (request.getRequestTypes().element() == RequestType.Taxi) {
+            myApplication.setInfoFrImg(ContextCompat.getDrawable(this, R.drawable.ic_taxi_icon));
+            myApplication.commitFragment(new DoneButtonFragment(), getSupportFragmentManager());
+        } else if (request.getRequestTypes().element() == RequestType.GetCash) {
+            myApplication.commitFragment(LikeACalcFragment.newInstance(true), getSupportFragmentManager());
+        } else if (request.getRequestTypes().element() == RequestType.Kitchen) {
+            myApplication.commitFragment(new BroughtFragment(), getSupportFragmentManager());
+        } else if (request.getRequestTypes().element() == RequestType.CreditCard){
+            myApplication.commitFragment(LikeACalcFragment.newInstance(false), getSupportFragmentManager());
+        } else if (request.getRequestTypes().element()== RequestType.Cash){
+            myApplication.setInfoFrImg(ContextCompat.getDrawable(this, R.drawable.ic_receipt_schedule_currency));
+            myApplication.commitFragment(new DoneButtonFragment(),getSupportFragmentManager());
+        } else if (request.getRequestTypes().element() ==RequestType.Cutlery){
+            myApplication.setInfoFrImg(ContextCompat.getDrawable(this, R.drawable.ic_fork_spoon));
+            myApplication.commitFragment(new DoneButtonFragment(), getSupportFragmentManager());
+        } else getSupportFragmentManager().popBackStack();
     }
 
-    private void generateMenu(){
-        if(myApplication.getMenuItemList()==null){
-            List<MenuItem> menuItems = new ArrayList<>();
-            int counter = 0;
-            for(String name : dishesNames){
-             MenuItem menuItem = new MenuItem();
-                menuItem.setName(name);
-                menuItem.setDescription("Very tasty " + name);
-                menuItem.setPrice(dishesPrices[counter]);
-                menuItem.setIcon(ContextCompat.getDrawable(this, R.drawable.salad_icon));
-                menuItems.add(menuItem);
-                counter++;
-            }
-            myApplication.setMenuItemList(menuItems);
-        }
+    @Override
+    public void myCalcClikMethod(View v) {
+        myApplication.getLikeACalcFragment().myClickCalc(v);
     }
 
-    private String[] dishesNames = {"Sup", "Borsch", "Kasha", "Pizza", "Sushi", "Salat Greckiy", "Salat Letniy", "Black Tea", "Green Tea", "Mohito", "Limonad" };
-    private Double[] dishesPrices = {25.50d, 30.00d, 20.45d, 82.45d, 55.56d, 67.40d, 30.10d, 21.50d, 21.50d, 53.70d, 25.00d};
+    @Override
+    public void onBackPressed() {
+        if(getSupportFragmentManager().getBackStackEntryCount()<2) finish();
+        L.l("onBackPressed; getSupportFragmentManager().getBackStackEntryCount()= ",this);
+        super.onBackPressed();
+        L.l("onBackPressed; getSupportFragmentManager().getBackStackEntryCount()= " + getSupportFragmentManager().getBackStackEntryCount(), this);
+        //getSupportFragmentManager().getBackStackEntryCount();
+    }
 }

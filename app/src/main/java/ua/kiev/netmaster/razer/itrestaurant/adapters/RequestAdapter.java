@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ua.kiev.netmaster.razer.itrestaurant.R;
@@ -24,17 +25,14 @@ public class RequestAdapter extends BaseAdapter {
 
     private Context context;
     private LayoutInflater lInflater;
-    private List<Request> requestList;
-    private TextView time, tableSeat;
-    private List<ImageView> imageViews;
+    private ArrayList<Request> requestList;
     private Request request;
     private MyApplication myApplication;
-    private View root;
+    private ViewHolder viewHolder;
 
-    public RequestAdapter(Context context, List<Request> requestList) {
+    public RequestAdapter(Context context, ArrayList<Request> requestList) {
         this.context = context;
         this.requestList = requestList;
-        lInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         myApplication = (MyApplication) context.getApplicationContext();
     }
 
@@ -56,67 +54,74 @@ public class RequestAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         L.l("getView()", this);
-        request = (Request) getItem(position);
-        root = lInflater.inflate(R.layout.messages_item, parent, false);
-        //if (convertView == null) {
-            //L.l("convertView == null", this);
-            if(request.getRequestTypes().get(0)==RequestType.GetCash||request.getRequestTypes().get(0)==RequestType.Kitchen ){
-            root.setBackground(ContextCompat.getDrawable(context, R.drawable.item_bckgrnd_red));
-            }
-       // }//else root = convertView;
 
-        ((TextView)root.findViewById(R.id.time_tv)).setText(myApplication.getSimpleDateFormat().format(request.getTime()));
-        ((TextView)root.findViewById(R.id.table_seat_tv)).setText(buildTableSeatStr());
+        request = (Request) getItem(position);
+        L.l("request = "+ request);
+        L.l("position = "+ position);
+        //root = lInflater.inflate(R.layout.messages_item, parent, false);
+        if (convertView == null) {
+            L.l("convertView == null");
+            lInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = lInflater.inflate(R.layout.messages_item, parent, false);
+            viewHolder = new ViewHolder(convertView);
+            convertView.setTag(viewHolder);
+
+        }else{
+            L.l("convertView != null");
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+        if(request.getRequestTypes() != null && (request.getRequestTypes().element()==RequestType.GetCash || request.getRequestTypes().element()==RequestType.Kitchen )){
+            convertView.setBackground(ContextCompat.getDrawable(context, R.drawable.item_bckgrnd_red));
+        }else  convertView.setBackground(ContextCompat.getDrawable(context, R.drawable.item_backgrnd));
         setImages();
-        return root;
+        viewHolder.time_tv.setText(myApplication.getSimpleDateFormat().format(request.getTime()));
+        viewHolder.table_seat_tv.setText(buildTableSeatStr());
+
+
+        L.l("request = " +request, this);
+        return convertView;
     }
 
     private void setImages(){
+        L.l("setImages()", this);
+        makeEveryThingNull();
         int counter = 0;
         for(RequestType requestType: request.getRequestTypes()){
            switch (counter){
-               case 0 : choseIcon((ImageView) root.findViewById(R.id.iv0), requestType);
+               case 0 : myApplication.choseIcon(viewHolder.iv0, requestType);
                    break;
-               case 1: choseIcon((ImageView)root.findViewById(R.id.iv1), requestType);
+               case 1: myApplication.choseIcon(viewHolder.iv1, requestType);
                    break;
-               case 2: choseIcon((ImageView)root.findViewById(R.id.iv2), requestType);
+               case 2: myApplication.choseIcon(viewHolder.iv2, requestType);
                    break;
-               case 3: choseIcon((ImageView)root.findViewById(R.id.iv3), requestType);
-                   break;
-               case 4: choseIcon((ImageView)root.findViewById(R.id.iv4), requestType);
+               case 3: myApplication.choseIcon(viewHolder.iv3, requestType);
                    break;
            }
            counter++;
         }
     }
 
-    private void choseIcon(ImageView imageView, RequestType requestType){
-        switch (requestType){
-            case ComeToMe:
-                imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_account));
-                break;
-            case Taxi:
-                imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_car));
-                break;
-            case Cash:
-                imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_cash_multiple));
-                break;
-            case CreditCard:
-                imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_credit_card));
-                break;
-            case Cutlery:
-                imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_silverware_fork));
-                break;
-            case GetCash:
-                imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_cash_multiple));
-                break;
-            case Kitchen: imageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_food));
-                break;
-        }
-        imageView.setVisibility(View.VISIBLE);
+    private void makeEveryThingNull(){
+        viewHolder.iv0.setImageDrawable(null);
+        viewHolder.iv1.setImageDrawable(null);
+        viewHolder.iv2.setImageDrawable(null);
+        viewHolder.iv3.setImageDrawable(null);
     }
 
     private String buildTableSeatStr(){
         return ""+request.getTable().getNumber()+request.getSeat();
+    }
+
+    class ViewHolder{
+        TextView time_tv, table_seat_tv;
+        ImageView iv0, iv1,iv2, iv3;
+        public ViewHolder(View v) {
+            time_tv = (TextView) v.findViewById(R.id.time_tv);
+            table_seat_tv = (TextView) v.findViewById(R.id.table_seat_tv);
+            iv0  = (ImageView) v.findViewById(R.id.iv0);
+            iv1  = (ImageView) v.findViewById(R.id.iv1);
+            iv2  = (ImageView) v.findViewById(R.id.iv2);
+            iv3  = (ImageView) v.findViewById(R.id.iv3);
+        }
     }
 }

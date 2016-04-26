@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tablebackground2"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5C"
+        android:id="@+id/tableSeatTV"
+        android:textSize="40sp"
+        android:textColor="@color/colorWhite"
+        android:layout_margin="20dp" />
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="50dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/placeIV1"
+                android:src="@drawable/ic_taxi_icon"
+                android:background="@drawable/circle_red"
+                android:visibility="gone"
+                android:padding="15dp"
+                android:layout_margin="15dp"
+                android:layout_weight=".1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/placeIV2"
+                android:src="@drawable/ic_taxi_icon"
+                android:background="@drawable/circle_red"
+                android:visibility="gone"
+                android:padding="15dp"
+                android:layout_margin="15dp"
+                android:layout_weight=".1" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/placeIV3"
+                android:src="@drawable/ic_taxi_icon"
+                android:background="@drawable/circle_red"
+                android:visibility="gone"
+                android:padding="15dp"
+                android:layout_margin="15dp"
+                android:layout_weight=".1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/placeIV4"
+                android:src="@drawable/ic_taxi_icon"
+                android:background="@drawable/circle_red"
+                android:visibility="gone"
+                android:padding="15dp"
+                android:layout_margin="15dp"
+                android:layout_weight=".1" />
+        </TableRow>
+    </TableLayout>
+</RelativeLayout>

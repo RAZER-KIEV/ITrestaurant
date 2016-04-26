@@ -85,6 +85,6 @@ public class MenuItemChooser extends Fragment implements AdapterView.OnItemClick
             orders.add(myApplication.getCurOderPosition(), curOrd);
         }
         myApplication.setOrderList(orders);
-        myApplication.commitFragment(new ReadyFragment(), getFragmentManager());
+        myApplication.commitFragment(ReadyFragment.newInstance(false), getFragmentManager());
     }
 }
